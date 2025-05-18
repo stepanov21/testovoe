@@ -124,15 +124,14 @@ export default function RegistrationForm({
           </label>
           <div className="relative [&>*]:text-gray-500">
             <IntlTelInput
+            
               value={phoneNumber}
               onChangeValidity={(isValid) => setIsValidPhone(isValid)}
               onChangeNumber={(number) => setPhoneNumber(number)}
               formatOnInit={true}
               initOptions={{
                 initialCountry: "ua",
-                separateDialCode: true,
-                utilsScript:
-                  "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                separateDialCode: true               
               }}
             />
             {formErrors.phone && (
