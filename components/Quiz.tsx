@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import ThankYouScreen from "./components/ThankYouScreen";
-import RegistrationForm from "./components/RegistrationForm";
-import QuizQuestion from "./components/QuizQuestion";
-import QuizResults from "./components/QuizResults";
-import { questions } from "./data/quizQuestions";
-import { QuizAnswer } from "./types/quiz";
-
+import { questions } from "../data/quizQuestions";
+import { submitQuizResults } from "../service/quizService";
+import { QuizAnswer } from "../types/quiz";
+import QuizQuestion from "./QuizQuestion";
+import QuizResults from "./QuizResults";
+import RegistrationForm from "./RegistrationForm";
+import ThankYouScreen from "./ThankYouScreen";
 
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -61,7 +61,8 @@ export default function Quiz() {
       // Prepare answers in the correct format
       const formattedAnswers: QuizAnswer[] = questions.map((q, index) => ({
         question: q.text,
-        selectedAnswer: userAnswers[index] >= 0 ? q.options[userAnswers[index]] : null,
+        selectedAnswer:
+          userAnswers[index] >= 0 ? q.options[userAnswers[index]] : null,
         correctAnswer: q.options[q.correctAnswer],
         isCorrect: userAnswers[index] === q.correctAnswer,
       }));
@@ -75,12 +76,14 @@ export default function Quiz() {
       });
 
       // In a real application, uncomment this to submit to the backend
-      // await submitQuizResults(formData, phoneNumber, formattedAnswers, score);
-      
+      await submitQuizResults(formData, phoneNumber, formattedAnswers, score);
+
       setFormSubmitted(true);
     } catch (error) {
       console.error("Error submitting form:", error);
       // Handle error (could show an error message to the user)
+    } finally {
+      setFormSubmitted(true);
     }
   };
 
@@ -90,10 +93,7 @@ export default function Quiz() {
 
   if (showRegistrationForm) {
     return (
-      <RegistrationForm
-        onSubmit={handleFormSubmit}
-        onCancel={resetQuiz}
-      />
+      <RegistrationForm onSubmit={handleFormSubmit} onCancel={resetQuiz} />
     );
   }
 

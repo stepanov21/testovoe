@@ -2,7 +2,6 @@
 
 import { Question } from "../types/quiz";
 
-
 interface QuizQuestionProps {
   question: Question;
   currentQuestionIndex: number;

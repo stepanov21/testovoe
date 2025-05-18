@@ -1,9 +1,13 @@
 "use client";
 
-import IntlTelInput from "intl-tel-input/reactWithUtils";
 import "intl-tel-input/styles";
-import { FormData } from "../types/quiz";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+import { FormData } from "../types/quiz";
+
+const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
+  ssr: false,
+});
 
 interface RegistrationFormProps {
   onSubmit: (formData: FormData, phoneNumber: string) => void;
@@ -124,14 +128,13 @@ export default function RegistrationForm({
           </label>
           <div className="relative [&>*]:text-gray-500">
             <IntlTelInput
-            
               value={phoneNumber}
               onChangeValidity={(isValid) => setIsValidPhone(isValid)}
               onChangeNumber={(number) => setPhoneNumber(number)}
               formatOnInit={true}
               initOptions={{
                 initialCountry: "ua",
-                separateDialCode: true               
+                separateDialCode: true,
               }}
             />
             {formErrors.phone && (
