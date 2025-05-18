@@ -29,3 +29,9 @@ body {
   width: 100%;
   border-radius: 6px;
 }
+
+@media (max-width: 768px) {
+  .bg-image {
+    background-image: none !important;
+  }
+}
